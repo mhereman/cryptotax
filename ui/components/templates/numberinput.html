@@ -1,0 +1,69 @@
+{{- define "NumberInput" -}}
+
+{{- $inputStyle := "mdc-text-field--filled" }}
+
+{{- if (hasKey . "Style") -}}
+    {{- if eq .Style "outlined" -}}
+        {{- $inputStyle = "mdc-text-field--outlined" -}}
+    {{- end -}}
+{{- end -}}
+
+<label id="{{- .Id -}}" class="mdc-text-field {{ $inputStyle }}">
+{{- if eq $inputStyle "mdc-text-field--outlined" -}}
+    <span class="mdc-notched-outline">
+        <span class="mdc-notched-outline__leading"></span>
+        <span class="mdc-notched-outline__notch">
+{{- else -}}
+    <span class="mdc-text-field__ripple"></span>
+{{- end -}}
+            <span class="mdc-floating-label" id="{{- .Id -}}-label">{{- .Label -}}</span>
+{{- if eq $inputStyle "mdc-text-field--outlined" -}}
+        </span>
+        <span class="mdc-notched-outline__trailing"></span>
+    </span>
+{{- end -}}
+{{- if (hasKey . "Prefix") -}}
+    <span class="mdc-text-field__affix mdc-text-field__affix--prefix">{{- .Prefix -}}</span>
+{{- end -}}
+    <input type="text"
+        id="{{- .Id -}}Input"
+        value="{{- .Value -}}"
+{{- if (hasKey . "Min") -}}
+        min="{{- .Min -}}"
+{{- end -}}
+{{- if (hasKey . "Max") -}}
+        max="{{- .Max -}}"
+{{- end -}}
+{{- if (hasKey . "Required") -}}
+    {{- if .Required -}}
+        required
+    {{- end -}}
+{{- end -}}
+        class="mdc-text-field__input"
+        aria-labelledby="{{- .Id -}}-label">
+{{- if (hasKey . "Sufffix") -}}
+    <span class="mc-text-field__affix mdx-text-field__affix--suffix">{{- .Suffix -}}</span>
+{{- end -}}
+{{- if eq $inputStyle "mdc-text-field--filled" -}}
+    <span class="mdc-line-ripple"></span>
+{{- end -}}
+</label>
+<script type="text/javascript">
+    var mdc{{- .Id | asJS }} = new mdc.textField.MDCTextField(document.getElementById('{{ .Id }}'));
+    var mdc{{- .Id | asJS -}}Input = document.getElementById('{{- .Id -}}Input');
+    var mdc{{- .Id | asJS -}}InputPrecision = {{- .Precision -}};
+    var mdc{{- .Id | asJS -}}InputPrevVal = mdc{{- .Id | asJS -}}Input.value;
+    mdc{{- .Id | asJS -}}Input.addEventListener('input', function(event) {
+        const input = mdc{{- .Id | asJS -}}Input;
+        const precision = mdc{{- .Id | asJS -}}InputPrecision;
+        const regex = new RegExp(`^-?\\d+(\\.\\d{0,${precision}})?$`);
+        if (regex.test(input.value)) {
+            mdc{{- .Id | asJS -}}InputPrevVal = input.value;
+            return;
+        }
+        event.preventDefault();
+        input.value = mdc{{- .Id | asJS -}}InputPrevVal;
+    });
+</script>
+
+{{- end -}}

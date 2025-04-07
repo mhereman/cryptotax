@@ -1,0 +1,26 @@
+<script src="static/transactions_add.js"></script>
+<div class="pagetoolbar">
+    <!-- Transaction type selector -->
+    {{- $selTxType := Select "selTxType" "Transaction Type" (.TransactionType | toString) "setTransactionType" -}}
+    {{- $_ := SelectOptions $selTxType "Initialisation" 1 "Trade" 2 "Transaction Fee" 3 -}}
+    {{- template "Select" $selTxType -}}
+</div>
+<div id="txtype-content" class="pagecontent">
+    Content
+</div>
+<div class="pagefooter">
+    footer
+</div>
+<script type="text/javascript">
+    /*const script = document.querySelector('script[src="static/transactions_add.js"]');
+    if (script && script.readyState === 'complete') {
+        loadTransactionTypePage({{- .TransactionType -}});
+    } else {
+        script.addEventListener('load', function() {
+            loadTransactionTypePage({{- .TransactionType -}});
+        });
+    }*/
+    onScriptLoaded('static/transactions_add.js', function() {
+        loadTransactionTypePage({{- .TransactionType -}});
+    });
+</script>

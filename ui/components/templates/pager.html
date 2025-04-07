@@ -1,0 +1,46 @@
+{{- define "Pager" -}}
+
+<div id="{{- .Id -}}">
+    {{- $fp := 0 -}}
+    {{- $lp := 0 -}}
+    {{- if .Pager -}}
+        {{- $fp = first .Pager -}}
+        {{- $lp = last .Pager -}}
+    {{- end -}}
+
+    {{- if gt .Page 1 -}}
+        <!-- Previous -->
+        {{- $btnPageBack := Button "btnPageBack" "" (eval "{{- .OnSetPage -}}( {{- .Page -}}  - 1)" $) "outlined" "" "arrow_back" "leading" -}}
+        {{- template "Button" $btnPageBack -}}
+    {{- end -}}
+    {{- if gt $fp 1 -}}
+        <!-- First -->
+            {{- $btnPageFirst := Button "btnPageFirst" "1" (eval "{{- .OnSetPage -}}(1)" $) "outlined" -}}
+            {{- template "Button" $btnPageFirst -}}
+    <span class="elipsis">...</span>
+    {{- end -}}
+    <!-- Pages in neighbourhood -->
+    {{- $n := 0 -}}
+    {{- range $n = .Pager -}}
+        {{- $style := "outlined" -}}
+        {{- if eq $.Page $n -}}
+            {{- $style = "raised" -}}
+        {{- end -}}
+        {{- $ctx := dict "n" $n "onSetPage" $.OnSetPage -}}
+        {{- $btn := Button (eval "btnPage{{- . -}}" $n) ($n | toString) (eval "{{- .onSetPage -}}({{- .n -}})" $ctx) $style -}}
+        {{- template "Button" $btn -}}
+    {{- end -}}
+    {{- if lt $lp .NumPages -}}
+        <!-- Last -->
+    <span class="elipsis">...</span>
+        {{- $btnPageLast := Button "btnPageLast" (.NumPages | toString) (eval "{{- .OnSetPage -}}({{- .NumPages -}})" $) "outlined" -}}
+        {{- template "Button" $btnPageLast -}}
+    {{- end -}}
+    {{- if lt .Page .NumPages -}}
+        <!-- Next -->
+        {{- $btnPageNext := Button "btnPageNext" "" (eval "{{- .OnSetPage -}}( {{- .Page -}}  + 1)" $) "outlined" "" "arrow_forward" "trailing" -}}
+        {{- template "Button" $btnPageNext -}}
+    {{- end -}}
+</div>
+
+{{- end -}}

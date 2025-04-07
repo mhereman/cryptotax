@@ -1,0 +1,32 @@
+{{- define "DataTable" -}}
+
+<div class="mdc-data-table" {{ if gt .FlexGrow 0 }}style="flex-grow: {{ .FlexGrow }}"{{ end }}>
+   <div class="mdc-data-table__table-container">
+        <table class="mdc-data-table__table" aria-label="{{ .Name }}">
+            <thead>
+                <tr class="mdc-data-table__header-row">
+                {{- range $h := .Header -}}
+                    <th class="mdc-data-table__header-cell" role="columnheader" scope="col">
+                        {{- $h -}}
+                    </th>
+                {{- end -}}
+                </tr>
+            </thead>
+            <tbody class="mdc-data-table__content">
+            {{- range $r := .Rows -}}
+                <tr class="mdc-data-table__row" {{ if $.OnRowClick }}ondblclick="{{ $.OnRowClick }}({{ $r.RowId }})"{{ end }}>
+                {{- range $i, $c := $r.Cells -}}
+                    <td class="mdc-data-table__cell" {{ if eq $i 0 }}scope="row"{{ end }} {{ if $c.CustomStyle }}style="{{ $c.CustomStyle }}"{{ end }}>
+                        {{- if $c.Strong -}}<strong>{{- end -}}
+                            {{ $c.DisplayString }}
+                        {{- if $c.Strong -}}</strong>{{- end -}}
+                    </td>
+                {{- end -}}
+                </tr>
+            {{- end -}}
+            </tbody>
+        </table>
+   </div> 
+</div>
+
+{{- end -}}

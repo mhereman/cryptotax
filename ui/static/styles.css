@@ -1,0 +1,172 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 250px; /* Breedte van de navigatiekolom */
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    flex-shrink: 0; /* Zorgt ervoor dat de sidebar altijd 250px blijft */
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul.categories li {
+    margin: 10px 0;
+}
+
+.sidebar ul.pages li {
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+}
+
+.sidebar ul.categories li a {
+    font-size: x-large;
+}
+
+.sidebar ul.pages li a {
+    margin-left: 10px;
+    font-size: large;
+    display: none;
+    border-left-width: 2px;
+    border-left-color: gray;
+    border-left-style: solid;
+}
+
+.sidebar ul.pages li a.active {
+    border-left-color: white;
+}
+
+.sidebar ul.categories .active + ul.pages li a {
+    display: block;
+}
+
+
+.sidebar ul li a:hover {
+    background-color: #555;
+}
+
+.content {
+    flex-grow: 1; /* Zorgt ervoor dat de content de resterende breedte opvult */
+    padding: 20px;
+    background-color: #f4f4f4;
+    overflow: auto; /* Zorgt ervoor dat content niet buiten het scherm gaat */
+    display: flex;
+    flex-direction: column;
+}
+
+.colum {
+    display: flex;
+    flex-direction: column
+}
+
+.row {
+    display: flex;
+    flex-direction: row
+}
+
+.form-row {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.grow {
+    flex-grow: 1
+}
+
+.h-line {
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.pagetoolbar {
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.pagecontent {
+    /* zorg dat de volledige resterende hoogte opgevuld wordt
+    rekening houdend met de voorgaande en volgende elementen */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.pagefooter {
+    margin-top: 10px;
+    padding: 5px;
+    border-top: 1px solid #ccc;
+}
+
+.transactiontable {
+    flex-grow: 1;
+}
+
+.pager {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-small {
+
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 6px;
+}
+
+.button-small i {
+    font-size: 12px;
+}
+
+span.elipsis {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+span.input-separator {
+    display: block;
+    width: 10px;
+}
+
+li:not([class]) {
+    margin-left: 30px;
+}
+
+p.paragraph {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}

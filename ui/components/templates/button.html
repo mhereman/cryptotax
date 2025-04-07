@@ -1,0 +1,40 @@
+{{- define "Button" -}}
+
+{{- $btnStyle := "" -}}
+{{- $btnIconStyle := "" -}}
+{{- $btnVariant := "" -}}
+
+{{- if (hasKey . "Style") -}}
+    {{- if eq .Style "outlined" -}}
+        {{- $btnStyle = "mdc-button--outlined" -}}
+    {{- else if eq .Style "raised" -}}
+        {{- $btnStyle = "mdc-button--raised" -}}
+    {{- else if eq .Style "unelevated" -}}
+        {{- $btnStyle = "mdc-button--unelevated" -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if (hasKey . "IconPosition") -}}
+    {{- if eq .IconPosition "leading" -}}
+        {{- $btnIconStyle = "mdc-button--icon-leading" -}}
+    {{- else if eq .IconPosition "trailing" -}}
+        {{- $btnIconStyle = "mdc-button--icon-trailing" -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if (hasKey . "Variant") -}}
+    {{- if eq .Variant "small" -}}
+        {{- $btnVariant = "button--small" -}}
+    {{- end -}}
+{{- end -}}
+<button type="button"
+        {{- if (hasKey . "Id") -}}id="{{- .Id -}}"{{- end -}}
+        class="mdc-button {{ $btnStyle }} {{ $btnIconStyle }} {{- $btnVariant -}}"
+        {{- if (hasKey . "OnClick") -}}onclick="{{- .OnClick -}}"{{- end -}}
+>
+    <span class="mdc-button__ripple"></span>
+    <span class="mdc-button__focus-ring"></span>
+    {{- if (hasKey . "Icon") -}}<i class="material-icons">{{- .Icon -}}</i>{{- end -}}
+    {{- if (hasKey . "Label") -}}<span class="mdc-button__label">{{- .Label -}}</span>{{- end -}}
+</button>
+{{- end -}}

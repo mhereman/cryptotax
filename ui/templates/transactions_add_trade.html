@@ -1,0 +1,27 @@
+<script src="static/transactions_add_trade.js"></script>
+<div class="mdc-tooltip-wrapper--rich">
+    <span class="mdc-typography--headline5"
+          aria-describedby="tt0">
+        Trade
+    </span>
+    <div id="tt0" class="mdc-tooltip mdc-tooltip--rich" aria-hidden="true" role="tooltip">
+        <div class="mdc-tooltip__surface mdc-tooltip__surface-animation">
+            <div class="mdc-tooltip__content">
+                <p>
+                    Use the <strong>Trade</strong> transaction type to register trades you made.
+                    These include:
+                </p>
+                <ul>
+                    <li>Buying crypto with {{ .FiatAsset.Name }}.</li>
+                    <li>Selling crypto to {{ .FiatAsset.Name }}.</li>
+                    <li>Trading crypto other crypto.</li>
+                    <li>Paying with cryptoe debit/credit cards.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var mdcTooltip = new mdc.tooltip.MDCTooltip(document.querySelector('.mdc-tooltip'));
+</script>

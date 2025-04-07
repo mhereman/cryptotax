@@ -1,0 +1,83 @@
+<script src="static/transactions_add_initialisation.js"></script>
+<div class="mdc-tooltip-wrapper--rich">
+    <span class="mdc-typography--headline5"
+          aria-describedby="tt0">
+        Initialisation
+    </span>
+    <div id="tt0" class="mdc-tooltip mdc-tooltip--rich" aria-hidden="true" role="tooltip">
+        <div class="mdc-tooltip__surface mdc-tooltip__surface-animation">
+            <div class="mdc-tooltip__content">
+                <p>
+                    Use the <strong>Initialisation</strong> transaction type to initialise the
+                    amount and value of a certain crypto asset at an indicated date.
+                </p>
+                <p>
+                    This is to be used when for example a tax-law get's passed in your country
+                    and it goes into effect on a certain date and the value of that date of your
+                    assets is regarded as being the taxable invested value.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mdc-typography--headline7">
+    <p class="paragraph">
+        Use the form below to initialise a crypto asset.
+    </p>
+    <p class="paragraph">
+        By initialising an asset, you lock the amount avaiable and value in {{ .FiatAsset.Name }}
+        to a certain date. All Profit/Loss calculations will then be based on this vaulation.
+    </p>
+</div>
+
+<div class="h-line"></div>
+
+<div class="row form-row">
+    {{- $inpDate := DateInput "dateInput" "Valuation Date" "outlined" -}}
+    {{- template "DateInput" $inpDate -}}
+</div>
+<div class="row form-row">
+    {{- $selCryptoAsset := Select "selCryptoAsset" "Asset" .CryptoAssetMap.BTC.Asset "setAsset" -}}
+    {{- range $key, $asset := .CryptoAssetMap -}}
+        {{- $_ := SelectAddOption $selCryptoAsset $asset.Name $asset.Asset -}}
+    {{- end -}}
+    {{- template "Select" $selCryptoAsset -}}
+    <span class="input-separator"></span>
+    {{- $inpAmount := NumberInput "amountInput" "Amount" "0" 2 "outlined" -}}
+    {{- $_ := NumberInputSetMin $inpAmount "0" -}}
+    {{- template "NumberInput" $inpAmount -}}
+</div>
+<div class="row form-row">
+    {{- $selValuationType := Select "selValuationType" "Valuation Type" 1 "setValuationType" -}}
+    {{- $_ := SelectOptions $selValuationType "Asset Price (Quote)" 1 "Total Value" 2 -}}
+    {{- template "Select" $selValuationType -}}
+    <span class="input-separator"></span>
+    {{- $inpValuation := NumberInput "valuationInput" "Valuation" "0" 2 "outlined" -}}
+    {{- $_ := NumberInputSetMin $inpValuation "0" -}}
+    {{- if .FiatAsset.SymbolBeforeValue -}}
+        {{- $_ := NumberInputSetPrefix $inpValuation .FiatAsset.Symbol -}}
+    {{- else -}}
+        {{- $_ := NumberInputSetSuffix $inpValuation .FiatAsset.Symbol -}}
+    {{- end -}}
+    {{- template "NumberInput" $inpValuation -}}
+    <span class="input-separator"></span>
+</div>
+
+</div>
+
+<script type="text/javascript">
+    var mdcTooltip = new mdc.tooltip.MDCTooltip(document.querySelector('.mdc-tooltip'));
+
+    function getAssetPrecision(asset) {
+        let precision = 2;
+        switch (asset) {
+    {{- range $key, $asset := .CryptoAssetMap -}}
+            case "{{- $asset.Asset -}}": precision = {{ $asset.Precision }}; break;
+    {{- end -}}
+        }
+        return precision;
+    }
+
+    NumberInputUpdatePrecision('amountInput', getAssetPrecision('BTC'));
+</script>

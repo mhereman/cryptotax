@@ -1,0 +1,59 @@
+<script src="static/transactions_overview.js"></script>
+<div class="pagetoolbar">
+    <!-- Year picker -->
+    {{- $btnDecYear := IconButton "btnDecYear" "arrow_back" "decrementYear()" -}}
+    {{- template "IconButton" $btnDecYear -}}
+    <span id="year" style="font-size: 2.5em">{{- .Year -}}</span>
+    {{- $btnIncYear := IconButton "btnIncYear" "arrow_forward" "incrementYear()" -}}
+    {{- template "IconButton" $btnIncYear -}}
+
+    <div class="grow"></div>
+
+    <!-- Page size selector -->
+    {{- $selPageSize := Select "selPageSize" "PageSize" (.PageSize | toString) "setPageSize" -}}
+    {{- $_ := SelectOptions $selPageSize 5 5 10 10 20 20 50 50 100 100 -}}
+    {{- template "Select" $selPageSize -}}
+</div>
+<div class="pagecontent">
+    <div class="row">
+        {{- template "DataTable" .TransactionTable -}}
+    </div>
+    <div class="pager">
+        <!-- Pager -->
+        {{- $pager := Pager "tblTxPager" .Page .NumPages 2 "setPage" -}}
+        {{- template "Pager" $pager -}}
+    </div>
+</div>
+<div class="pagefooter">
+    footer
+</div>
+<div class="mdc-dialog">
+    <div class="mdc-dialog__container">
+        <div class="mdc-dialog__surface"
+             role="dialog"
+             aria-modal="true"
+             aria-labeled-by="my-dialog-title"
+             aria-described-by="my-dialog-content"
+             tabindex="-1">
+            <h2 class="mdc-dialog__title" id="my-dialog-title">Title</h2>
+            <div class="mdc-dialog__content" id="my-dialog-content">
+                <label class="mdc-text-field mdc-text-field--filled">
+                    <span class="mdc-text-field__ripple"></span>
+                    <span class="mdc-floating-label" id="my-label-id">Label</span>
+                    <input class="mdc-text-field__input" type="text" aria-labeledby="my-label-id" disabled>Text</input>
+                    <span class="mdc-line-ripple"></span>
+                </label>
+                <label class="mdc-text-field mdc-text-field--filled">
+                    <span class="mdc-text-field__ripple"></span>
+                    <span class="mdc-floating-label" id="my-label-2-id">Label 2</span>
+                    <input class="mdc-text-field__input" type="text" aria-labeledby="my-label-2-id" disabled>Text 2</input>
+                    <span class="mdc-line-ripple"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var mdcDialog = new mdc.dialog.MDCDialog(document.querySelector('.mdc-dialog'));
+    //dialog.open();
+</script>

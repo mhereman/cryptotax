@@ -1,0 +1,76 @@
+{{- define "Select" -}}
+
+{{- $selStyle := "mdc-select--filled" -}}
+
+{{- if (hasKey . "Style") -}}
+    {{- if eq .Style "outlined" -}}
+        {{- $selStyle = "mdc-select--outlined" -}}
+    {{- end -}}
+{{- end -}}
+
+<div class="mdc-select {{ $selStyle}}" id="{{- .Id -}}">
+    <div class="mdc-select__anchor"
+         role="button"
+         aria-haspopup="lsitbox"
+         aria-expanded="false"
+         aria-labelledby="{{ .Id }}-label {{ .Id }}-selected-text"
+    >
+        <span class="mdc-select__ripple"></span>
+        <span id="{{- .Id -}}-label" class="mdc-floating-label">{{- .Label -}}</span>
+        <span class="mdc-select__selected-text-container">
+            <span id="{{- .Id -}}-selected-text" class="mdc-select__selected-text"></span>
+        </span>
+        <span class="mdc-select__dropdown-icon">
+            <svg class="mdc-select__dropdown-icon-graphic" viewBox="7 10 10 5" focusable="false">
+                <polygon class="mdc-select__dropdown-icon-inactive"
+                         stroke="none"
+                         fill-rule="evenodd"
+                         points="7 10 12 15 17 10"
+                >
+                </polygon>
+                <polygon class="mdc-select__dropdown-icon-active"
+                         stroke="none"
+                         fill-rule="evenodd"
+                         points="7 15 12 10 17 15"
+                >
+                </polygon>
+            </svg>
+        </span>
+        <span class="mdc-line-ripple"></span>
+    </div>
+
+    <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
+        <ul class="mdc-deprecated-list" role="listbox" aria-label="{{ get . "Label" }} listbox">
+        {{- $selectedValue := .SelectedValue | toString -}}
+        {{- range $option := slice .Options -}}
+            {{- $value := $option.Value | toString -}}
+            {{- $label := $option.Label -}}
+            <li class="mdc-deprecated-list-item {{ if eq $value $selectedValue }}mdc-deprecated-list-item--selected{{ end }}"
+                data-value={{ $value }}
+                aria-selected="{{ if eq $value $selectedValue }}true{{ else }}false{{ end }}"
+                role="option"
+            >
+            <span class="mdc-deprecated-list-item__ripple"></span>
+            <span class="mdc-deprecated-list-item__text">{{- $label -}}</span>
+        </li>
+        {{- end -}}
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var mdc{{ .Id | asJS }} = new mdc.select.MDCSelect(document.getElementById('{{- .Id -}}'));
+    {{- if (hasKey . "OnChange") -}}
+        {{- $fn := .OnChange -}}
+        {{- if or (hasSuffix ")" ($fn | toString)) (hasSuffix ");" ($fn | toString)) -}}
+            mdc{{ .Id | asJS -}}.listen('MDCSelect:change', () => {
+                {{- $fn -}};
+            });
+        {{- else -}}
+            mdc{{ .Id | asJS -}}.listen('MDCSelect:change', () => {
+                {{- $fn -}}(mdc{{- .Id | asJS -}});
+            });
+        {{- end -}}
+    {{- end -}}
+</script>
+
+{{- end -}}

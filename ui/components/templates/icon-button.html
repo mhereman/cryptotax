@@ -1,0 +1,20 @@
+{{- define "IconButton" -}}
+
+{{- $btnVariant := "" -}}
+
+{{- if (hasKey . "Variant") -}}
+    {{- if eq .Variant "small" -}}
+        {{- $btnVariant = "button-small" -}}
+    {{- end -}}
+{{- end -}}
+
+<button type="button"
+        {{- if (hasKey . "Id") -}}id="{{- .Id -}}"{{- end -}}
+        class="mdc-icon-button {{ $btnVariant }}"
+        {{- if (hasKey . "OnClick") -}}onclick="{{- .OnClick -}}"{{- end -}}
+>
+    <div class="mdc-icon-button__ripple"></div>
+    <span class="mdc-icon-button__focus-ring"></span>
+    {{- if (hasKey . "Icon") -}}<i class="material-icons">{{- .Icon -}}</i>{{- end -}}
+</button>
+{{- end -}}

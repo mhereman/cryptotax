@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{- .Title -}}</title>
+    <link rel="stylesheet" href="static/roboto.css">
+    <link rel="stylesheet" href="static/material-icons.css">
+    <link rel="stylesheet" href="static/material-components-web.css">
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body class="'mdc-typography">
+    <div class="container">
+        <nav class="sidebar">
+            <h2>{{- .AppName -}}</h2>
+            <ul class="categories">
+            {{- range $cat := .Layout.Categories -}}
+                <li>
+                    <a id="cat_{{- $cat.Label -}}"
+                        href="#"
+                        onclick="loadContent('{{- (index $cat.Pages 0).Link -}}', '{{- $cat.Label -}}', '{{- (index $cat.Pages 0).Label -}}'); return false;"
+                    >{{- $cat.Label -}}</a>
+                    <ul class="pages">
+                    {{- range $page := $cat.Pages -}}
+                        <li>
+                            <a id="page{{- $page.Label -}}"
+                                href="#"
+                                onclick="loadContent('{{- $page.Link -}}', '{{- $cat.Label -}}', '{{- $page.Label -}}'); return false;"
+                            >{{- $page.Label -}}</a>
+                        </li>
+                    {{- end -}}
+                    </ul>
+                </li>
+            {{- end -}}
+            </ul>
+        </nav>
+        <main id="content" class="content">
+            <h1>Welkom</h1>
+            <p>Dit is het content-gedeelte van de pagina.</p>
+        </main>
+    </div>
+
+    <script src="static/material-components-web.js"></script>
+    <script src="static/utils.js"></script>
+    <script src="static/nav.js"></script>
+    <script src="static/component-utils.js"></script>
+    <script type="text/javascript">
+        window.onload = function() {
+            loadContent('{{- (index (index .Layout.Categories 0).Pages 0).Link -}}', '{{- (index .Layout.Categories 0).Label -}}', '{{- (index (index .Layout.Categories 0).Pages 0).Label -}}');
+        }
+    </script>
+</body>
+</html>

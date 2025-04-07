@@ -1,0 +1,13 @@
+{{ define "index" }}
+<body hx-boost="true" class="page-index">
+
+{{ template "Components/ThemeChooser" . }}
+{{ template "svg" . }}
+
+    <main class="page-index d-flex flex-nowrap">
+        {{ template "sidebar" . }}
+        {{ template "main" . }}
+    </main>
+
+</body>
+{{ end }}
