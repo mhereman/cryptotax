@@ -182,3 +182,13 @@ func Unauthorized(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusUnauthorized)
 	w.Write([]byte("Unauthorized"))
 }
+
+func Forbidden(w http.ResponseWriter, r *http.Request, err error) {
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.WriteHeader(http.StatusForbidden)
+	if debug {
+		w.Write([]byte(fmt.Sprintf("Forbidden: %s", err)))
+	} else {
+		w.Write([]byte("Forbidden"))
+	}
+}

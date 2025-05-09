@@ -9,6 +9,7 @@ import (
 	"github.com/mhereman/cryptotax/backend/validators"
 	"github.com/mhereman/cryptotax/websrv"
 	"github.com/mhereman/cryptotax/websrv/assets"
+	"github.com/mhereman/cryptotax/websrv/errmsg"
 )
 
 func init() {
@@ -39,7 +40,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 		data := websrv.NewTemplateData(r)
 		data.SetPageKind("Login")
 		data.SetPageTitle("CyproTax - Login")
-		data.SetErrorString(MsgInvalidLoginCredentials)
+		data.SetErrorString(errmsg.MsgInvalidLoginCredentials)
 		data.SetData(map[string]any{
 			"Email": email,
 		})
@@ -62,7 +63,7 @@ func loginValidate(w http.ResponseWriter, r *http.Request) {
 
 	if r.FormValue("email") != "" {
 		if err := validators.ValidateEmail(r.FormValue("email")); err != nil {
-			errors["email"] = MsgInvalidEmail
+			errors["email"] = errmsg.MsgInvalidEmail
 		}
 	}
 

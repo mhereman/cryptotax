@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/mhereman/cryptotax/websrv"
+	"github.com/mhereman/cryptotax/websrv/errmsg"
 	"github.com/mhereman/cryptotax/websrv/middlewares"
 )
 
@@ -23,9 +24,9 @@ func NewSettingsPageData() *SettingsPageData {
 }
 
 func settingsPage(w http.ResponseWriter, r *http.Request) {
-	userData := getUserData(r)
+	userData := enrichUserData(middlewares.GetUserFromContext(r))
 	if userData == nil {
-		websrv.InternalServerError(w, r, errors.New(MsgUserNotFound))
+		websrv.InternalServerError(w, r, errors.New(errmsg.MsgUserNotFound))
 		return
 	}
 

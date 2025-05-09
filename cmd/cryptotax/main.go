@@ -2,8 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
+
+	"github.com/joho/godotenv"
 
 	"github.com/mhereman/cryptotax/backend/cryptodb"
 	"github.com/mhereman/cryptotax/config"
@@ -28,6 +31,10 @@ const (
 )
 
 func init() {
+	if err := godotenv.Load(); err != nil {
+		fmt.Println("No environment file loaded")
+	}
+
 	mainContext, mainCancel = context.WithCancel(context.Background())
 	osSignalChan = make(chan os.Signal, 1)
 	shutdownChan = make(chan struct{}, 1)
@@ -56,19 +63,3 @@ func main() {
 	<-shutdownChan
 	os.Exit(ExitCodeOK)
 }
-
-/*func init() {
-	config.ParseConfig()
-	cryptodb.Connect()
-	ui.LoadFiles()
-}
-
-func main() {
-	http.Handle("/static/", http.FileServer(http.FS(ui.StaticFS)))
-
-	ui.SetupPages()
-
-	log.Printf("Server listening on port: %d\n", config.Port())
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.Port()), nil))
-}
-*/

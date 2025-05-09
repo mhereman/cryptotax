@@ -9,6 +9,7 @@ import (
 	"github.com/mhereman/cryptotax/backend/validators"
 	"github.com/mhereman/cryptotax/websrv"
 	"github.com/mhereman/cryptotax/websrv/assets"
+	"github.com/mhereman/cryptotax/websrv/errmsg"
 	"github.com/mhereman/cryptotax/websrv/middlewares"
 )
 
@@ -24,12 +25,12 @@ func registerAdmin(w http.ResponseWriter, r *http.Request) {
 	pw2 := r.FormValue("passwordConfirm")
 
 	if err := validators.ValidateEmail(email); err != nil {
-		errors["email"] = MsgInvalidEmail
+		errors["email"] = errmsg.MsgInvalidEmail
 	}
 	if err := validators.ValidatePasswordStrength(pw1); err != nil {
-		errors["password"] = MsgWeakPassword
+		errors["password"] = errmsg.MsgWeakPassword
 	} else if err := validators.ValidatePasswordsMatch(pw1, pw2); err != nil {
-		errors["password"] = MsgPasswordMismatch
+		errors["password"] = errmsg.MsgPasswordMismatch
 	}
 
 	data := websrv.NewTemplateData(r)
@@ -78,19 +79,19 @@ func registerValidate(w http.ResponseWriter, r *http.Request) {
 
 	if r.FormValue("email") != "" {
 		if err := validators.ValidateEmail(r.FormValue("email")); err != nil {
-			errors["email"] = MsgInvalidEmail
+			errors["email"] = errmsg.MsgInvalidEmail
 		}
 	}
 
 	if r.FormValue("password") != "" {
 		if err := validators.ValidatePasswordStrength(r.FormValue("password")); err != nil {
-			errors["password"] = MsgWeakPassword
+			errors["password"] = errmsg.MsgWeakPassword
 		}
 	}
 
 	if r.FormValue("passwordConfirm") != "" {
 		if err := validators.ValidatePasswordsMatch(r.FormValue("password"), r.FormValue("passwordConfirm")); err != nil {
-			errors["passwordConfirm"] = MsgPasswordMismatch
+			errors["passwordConfirm"] = errmsg.MsgPasswordMismatch
 		}
 	}
 

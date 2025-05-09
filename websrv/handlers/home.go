@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"errors"
 	"net/http"
 
 	"github.com/mhereman/cryptotax/backend/cryptodb"
@@ -19,8 +18,9 @@ func init() {
 type MainPage string
 
 const (
-	MainPageHome     = "Home"
-	MainPageSettings = "Settings"
+	MainPageAdministration = "Administration"
+	MainPageHome           = "Home"
+	MainPageSettings       = "Settings"
 )
 
 type MainPageData struct {
@@ -60,12 +60,7 @@ func NewHomePageData() *HomePageData {
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
-	userData := getUserData(r)
-	if userData == nil {
-		websrv.InternalServerError(w, r, errors.New(MsgUserNotFound))
-		return
-	}
-
+	userData := enrichUserData(middlewares.GetUserFromContext(r))
 	pageData := NewHomePageData()
 
 	data := websrv.NewTemplateData(r)
@@ -75,8 +70,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 	websrv.RenderHtmlPage(w, r, "index.html", data)
 }
 
-func getUserData(r *http.Request) *websrv.UserData {
-	userData := websrv.NewUserDataFromClaims(r)
+func enrichUserData(userData *websrv.UserData) *websrv.UserData {
 	if userData != nil {
 		if userDetails, err := cryptodb.GetUserDetails(userData.Email); err == nil {
 			userData.FirstName = userDetails.FirstName

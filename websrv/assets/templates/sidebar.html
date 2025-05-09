@@ -33,7 +33,7 @@
         </a>
         <ul class="dropdown-menu text-small shadow">
             <li><a class="dropdown-item" href="/settings" hx-push-url="true">Settings</a></li>
-            {{ if .User.IsAdmin }}<li><a class="dropdown-item" href="#">Configuration</a></li>{{ end }}
+            {{ if .User.IsAdmin }}<li><a class="dropdown-item" href="#">Administration</a></li>{{ end }}
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/logout" hx-boost="false">Sign out</a></li>
         </ul>

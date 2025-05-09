@@ -27,6 +27,7 @@ func init() {
 	Pages.NewPage("index.html", "page.html",
 		"index.html", "login.html", "register.html",
 		"svg.html", "sidebar.html", "main.html",
+		"pages/administration.hmtl",
 		"pages/home.html",
 		"pages/settings.html",
 		"components/theme-chooser.html")
